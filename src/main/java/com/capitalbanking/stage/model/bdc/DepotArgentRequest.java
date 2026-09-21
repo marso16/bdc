@@ -38,8 +38,8 @@ public class DepotArgentRequest {
     private String amount;
 
     @NotBlank(message = "currency is required")
-    @Pattern(regexp = "^[A-Z]{3}$", message = "currency must be a 3-letter ISO code")
-    @Schema(description = "Code devise ISO.", example = "EUR", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Pattern(regexp = "^[0-9]{3}$", message = "currency must be a 3-digit numeric ISO 4217 code")
+    @Schema(description = "Code devise ISO numérique.", example = "174", requiredMode = Schema.RequiredMode.REQUIRED)
     private String currency;
 
     @NotBlank(message = "createtime is required")
