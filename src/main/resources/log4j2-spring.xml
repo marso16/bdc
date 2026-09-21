@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+
+    <Properties>
+        <!-- Pattern includes MDC key transId with fallback 'anon' -->
+        <Property name="LOG_PATTERN">
+            %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%X{transId:-anon}] %-5level %class:%line - %msg%n
+        </Property>
+        <Property name="LOG_DIR">${spring:log.dir:-logs}</Property>
+        <Property name="LOG_FILE">${LOG_DIR}/app.log</Property>
+    </Properties>
+
+    <Appenders>
+        <!-- Console -->
+        <Console name="ConsoleAppender" target="SYSTEM_OUT">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+        </Console>
+
+        <!-- Rolling File: roll every 10 days OR at 500 MB (whichever first) -->
+        <RollingFile name="FileAppender"
+                     fileName="${LOG_FILE}"
+                     filePattern="${LOG_DIR}/archive/app-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+
+            <Policies>
+                <!-- Time-based rollover every 30 days -->
+                <TimeBasedTriggeringPolicy interval="30"/>
+                <!-- Size-based rollover at 500 MB -->
+                <SizeBasedTriggeringPolicy size="500 MB"/>
+            </Policies>
+
+            <!-- Include %i in filePattern when using size policy -->
+            <DefaultRolloverStrategy fileIndex="min" max="60"/>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <!-- Your app's base package -->
+        <Logger name="com.capitalbanking" level="DEBUG" additivity="false">
+            <AppenderRef ref="ConsoleAppender"/>
+            <AppenderRef ref="FileAppender"/>
+        </Logger>
+        
+        <Logger name="net.ttddyy.dsproxy.listener.logging" level="info" additivity="false">
+		  <AppenderRef ref="ConsoleAppender"/>
+		  <AppenderRef ref="FileAppender"/>
+		</Logger>
+        
+
+        <!-- Everything else -->
+        <Root level="INFO">
+            <AppenderRef ref="ConsoleAppender"/>
+            <AppenderRef ref="FileAppender"/>
+        </Root>
+    </Loggers>
+
+</Configuration>
