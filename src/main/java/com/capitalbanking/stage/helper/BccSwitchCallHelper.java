@@ -23,10 +23,31 @@ public class BccSwitchCallHelper {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BccSwitchCallHelper.class);
 
+    // Safety margin so we refresh slightly before BCC actually expires the token.
+    private static final long EXPIRY_SAFETY_MARGIN_MS = 30_000L;
+
     private final BccParametrage bccParametrage;
     private final ObjectMapper objectMapper;
 
-    public String getAccessToken() throws Exception {
+    private volatile String cachedAccessToken;
+    private volatile long cachedAccessTokenExpiryMillis;
+
+    /**
+     * Returns a cached access token when still valid, per business rule 12.3.2
+     * (a token must be reused for every future request until it expires).
+     * Otherwise requests a new one via the password grant, as BCC recommends
+     * over the refresh_token grant (spec §3.2).
+     */
+    public synchronized String getAccessToken() throws Exception {
+        if (cachedAccessToken != null && System.currentTimeMillis() < cachedAccessTokenExpiryMillis) {
+            LOGGER.info("getAccessToken → reusing cached token (valid for {} more ms)",
+                    cachedAccessTokenExpiryMillis - System.currentTimeMillis());
+            return cachedAccessToken;
+        }
+        return requestNewAccessToken();
+    }
+
+    private String requestNewAccessToken() throws Exception {
         URL url = new URL(bccParametrage.getBaseUrl() + bccParametrage.getTokenUrl());
 
         StringBuilder sb = new StringBuilder();
@@ -72,7 +93,21 @@ public class BccSwitchCallHelper {
                             + " – " + json.optString("error_description"));
         }
 
-        return json.getString("access_token");
+        String accessToken = json.getString("access_token");
+
+        long expiresInSeconds;
+        try {
+            expiresInSeconds = Long.parseLong(json.optString("expires_in", "0"));
+        } catch (NumberFormatException e) {
+            expiresInSeconds = 0;
+        }
+
+        cachedAccessToken = accessToken;
+        cachedAccessTokenExpiryMillis = System.currentTimeMillis()
+                + Math.max(0, expiresInSeconds * 1000 - EXPIRY_SAFETY_MARGIN_MS);
+        LOGGER.info("getAccessToken → cached new token, expires_in={}s", expiresInSeconds);
+
+        return accessToken;
     }
 
     public void updatePaymentStatus(String token, Object requestBody) throws Exception {
