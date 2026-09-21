@@ -121,11 +121,11 @@ public class TransferService {
                 return depotError(response, Constants.ERR_CODE_399, Constants.ERR_MSG_399);
             }
 
-            response.setError(internalResp.getErrorCode());
-            response.setError_description(internalResp.getErrorMsg());
+            boolean ok = Constants.STATUS_OK.equalsIgnoreCase(internalResp.getStatus());
+            response.setError(ok ? "" : internalResp.getErrorCode());
+            response.setError_description(ok ? "" : internalResp.getErrorMsg());
             response.setAcquirertrxref(internalResp.getBankReference());
 
-            boolean ok = Constants.STATUS_OK.equalsIgnoreCase(internalResp.getStatus());
             switchNotifier.notifyPayment(request.getIssuertrxref(), request.getVouchercode(),
                     Constants.INTENT_DIRECT_CASH_IN, ok ? Constants.STATE_ACCEPTED : Constants.STATE_REJECTED);
             return ok ? ApiResult.ok(response) : ApiResult.badRequest(response);
@@ -238,11 +238,11 @@ public class TransferService {
                 return retraitError(response, Constants.ERR_CODE_399, Constants.ERR_MSG_399);
             }
 
-            response.setError(internalResp.getErrorCode());
-            response.setError_description(internalResp.getErrorMsg());
+            boolean ok = Constants.STATUS_OK.equalsIgnoreCase(internalResp.getStatus());
+            response.setError(ok ? "" : internalResp.getErrorCode());
+            response.setError_description(ok ? "" : internalResp.getErrorMsg());
             response.setAcquirertrxref(internalResp.getBankReference());
 
-            boolean ok = Constants.STATUS_OK.equalsIgnoreCase(internalResp.getStatus());
             switchNotifier.notifyPayment(request.getIssuertrxref(), request.getVouchercode(),
                     Constants.INTENT_DIRECT_CASH_OUT, ok ? Constants.STATE_ACCEPTED : Constants.STATE_REJECTED);
             return ok ? ApiResult.ok(response) : ApiResult.badRequest(response);
