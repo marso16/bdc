@@ -42,7 +42,7 @@ public class CoreRepository {
     public String getModev(String operation, String clientType) {
         String y1 = getFx5y8ValueWithX4(
                 operation, clientType);
-        LOGGER.info("getModev: operation={}, clientType={} → y1={}", operation, clientType, y1);
+        LOGGER.info("getModev: operation={}, clientType={} -> y1={}", operation, clientType, y1);
         return y1;
     }
 

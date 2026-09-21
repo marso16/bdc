@@ -11,7 +11,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@Schema(description = "Requête du service Retrait d'argent (BCC → Participant).")
+@Schema(description = "Requête du service Retrait d'argent (BCC -> Participant).")
 public class RetraitArgentRequest {
 
     @NotBlank(message = "frommember is required")

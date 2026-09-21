@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Schema(description = "Requête du service PaymentInquiry (BCC → Participant).")
+@Schema(description = "Requête du service PaymentInquiry (BCC -> Participant).")
 public class PaymentInquiryRequest {
 
     @Schema(description = "Numéro de compte source.", example = "acc000000001", requiredMode = Schema.RequiredMode.REQUIRED)

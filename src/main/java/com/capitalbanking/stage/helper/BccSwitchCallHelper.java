@@ -23,7 +23,6 @@ public class BccSwitchCallHelper {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BccSwitchCallHelper.class);
 
-    // Safety margin so we refresh slightly before BCC actually expires the token.
     private static final long EXPIRY_SAFETY_MARGIN_MS = 30_000L;
 
     private final BccParametrage bccParametrage;
@@ -32,15 +31,9 @@ public class BccSwitchCallHelper {
     private volatile String cachedAccessToken;
     private volatile long cachedAccessTokenExpiryMillis;
 
-    /**
-     * Returns a cached access token when still valid, per business rule 12.3.2
-     * (a token must be reused for every future request until it expires).
-     * Otherwise requests a new one via the password grant, as BCC recommends
-     * over the refresh_token grant (spec §3.2).
-     */
     public synchronized String getAccessToken() throws Exception {
         if (cachedAccessToken != null && System.currentTimeMillis() < cachedAccessTokenExpiryMillis) {
-            LOGGER.info("getAccessToken → reusing cached token (valid for {} more ms)",
+            LOGGER.info("getAccessToken -> reusing cached token (valid for {} more ms)",
                     cachedAccessTokenExpiryMillis - System.currentTimeMillis());
             return cachedAccessToken;
         }
@@ -67,7 +60,7 @@ public class BccSwitchCallHelper {
         con.setReadTimeout(Constants.READ_TIMEOUT_MS);
         con.setDoOutput(true);
 
-        LOGGER.info("getAccessToken → POST {}", url);
+        LOGGER.info("getAccessToken -> POST {}", url);
 
         try (OutputStream os = con.getOutputStream()) {
             os.write(body);
@@ -79,8 +72,8 @@ public class BccSwitchCallHelper {
         logResponseHeaders(con);
         con.disconnect();
 
-        LOGGER.info("getAccessToken → HTTP {}", status);
-        LOGGER.info("getAccessToken → Response: {}", responseBody);
+        LOGGER.info("getAccessToken -> HTTP {}", status);
+        LOGGER.info("getAccessToken -> Response: {}", responseBody);
 
         if (status >= Integer.parseInt(Constants.CODE_400)) {
             throw new BccHttpException(status, "Authentication failed: " + responseBody);
@@ -105,7 +98,7 @@ public class BccSwitchCallHelper {
         cachedAccessToken = accessToken;
         cachedAccessTokenExpiryMillis = System.currentTimeMillis()
                 + Math.max(0, expiresInSeconds * 1000 - EXPIRY_SAFETY_MARGIN_MS);
-        LOGGER.info("getAccessToken → cached new token, expires_in={}s", expiresInSeconds);
+        LOGGER.info("getAccessToken -> cached new token, expires_in={}s", expiresInSeconds);
 
         return accessToken;
     }
@@ -139,7 +132,7 @@ public class BccSwitchCallHelper {
         LOGGER.info("REQUEST BODY: {}", jsonBody);
 
         URL url = new URL(urlStr);
-        LOGGER.info("callBcc → POST {}", urlStr);
+        LOGGER.info("callBcc -> POST {}", urlStr);
 
         HttpURLConnection con = openConnection(url);
         con.setRequestMethod("POST");

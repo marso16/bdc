@@ -10,7 +10,7 @@ import javax.validation.constraints.Pattern;
 
 @Getter
 @Setter
-@Schema(description = "Requête de création de compte (BCC → Participant).")
+@Schema(description = "Requête de création de compte (BCC -> Participant).")
 public class CompteCreationRequest {
 
     @NotBlank(message = "requestID is required")

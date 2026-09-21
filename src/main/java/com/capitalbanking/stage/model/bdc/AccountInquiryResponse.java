@@ -11,10 +11,10 @@ import lombok.Setter;
 @Schema(description = "Réponse du service AccountInquiry.")
 public class AccountInquiryResponse {
 
-    @Schema(description = "Description courte de l'erreur. Vide si succès.", example = "")
+    @Schema(description = "Description courte de l'erreur. Vide si succès.")
     private String error;
 
-    @Schema(description = "Description longue de l'erreur. Vide si succès.", example = "")
+    @Schema(description = "Description longue de l'erreur. Vide si succès.")
     private String error_description;
 
     @Schema(description = "Statut de la transaction: ACCEPTED ou PENDING.", example = "ACCEPTED")

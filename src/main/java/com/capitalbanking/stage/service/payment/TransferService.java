@@ -59,7 +59,7 @@ public class TransferService {
             if (fromAccount == null) {
                 if (isExternalMember) {
                     fromAccount = coreRepository.getDepotPoolAccount();
-                    LOGGER.info("depot: fromaccount is blank and frommember is external → using pool account: {}", fromAccount);
+                    LOGGER.info("depot: fromaccount is blank and frommember is external -> using pool account: {}", fromAccount);
                     if (fromAccount == null) {
                         return depotError(response, Constants.ERR_CODE_399,
                                 "Pool account not configured for DEPOT in fx5y8");
@@ -164,7 +164,7 @@ public class TransferService {
             if (accountNumber == null) {
                 if (isExternalTomember) {
                     accountNumber = coreRepository.getRetraitPoolAccount();
-                    LOGGER.info("retrait: accountnumber is blank and tomember is external → using pool account: {}", accountNumber);
+                    LOGGER.info("retrait: accountnumber is blank and tomember is external -> using pool account: {}", accountNumber);
                     if (accountNumber == null) {
                         return retraitError(response, Constants.ERR_CODE_399,
                                 "Pool account not configured for RETRAIT in fx5y8");

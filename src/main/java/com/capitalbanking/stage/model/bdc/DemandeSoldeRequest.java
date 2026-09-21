@@ -6,13 +6,15 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Schema(description = "Requête du service BalanceInquiry (BCC → Participant).")
+@Schema(description = "Requête du service BalanceInquiry (BCC -> Participant).")
 public class DemandeSoldeRequest {
 
-    @Schema(description = "Opération demandée. Valeur fixe: acc_balance_inquiry", example = "acc_balance_inquiry", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "Opération demandée. Valeur fixe: acc_balance_inquiry",
+            example = "acc_balance_inquiry", requiredMode = Schema.RequiredMode.REQUIRED)
     private String intent;
 
-    @Schema(description = "Référence unique de transaction émise par le Switch.", example = "1572602202511", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "Référence unique de transaction émise par le Switch.",
+            example = "1572602202511", requiredMode = Schema.RequiredMode.REQUIRED)
     private String issuertrxref;
 
     @Schema(description = "Identifiant du participant agent.", example = "0001", requiredMode = Schema.RequiredMode.REQUIRED)
