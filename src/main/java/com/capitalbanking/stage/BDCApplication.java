@@ -8,9 +8,9 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EnableAsync
 @SpringBootApplication
 @EnableConfigurationProperties
-public class EntryPoint {
+public class BDCApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(EntryPoint.class, args);
+        SpringApplication.run(BDCApplication.class, args);
     }
 }

@@ -1,6 +1,7 @@
 package com.capitalbanking.stage.model.bdc;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,19 +10,19 @@ import java.util.List;
 
 @Getter
 @Setter
-@Schema(description = "Réponse du service BalanceInquiry.")
+@ApiModel(description = "Réponse du service BalanceInquiry.")
 public class DemandeSoldeResponse {
 
-    @Schema(example = "200")
+    @ApiModelProperty(example = "200")
     private String error;
 
-    @Schema(example = "Transaction acceptee")
+    @ApiModelProperty(example = "Transaction acceptee")
     private String error_description;
 
-    @Schema(example = "1572602202511")
+    @ApiModelProperty(example = "1572602202511")
     private String issuertrxref;
 
-    @Schema(example = "542420230823")
+    @ApiModelProperty(example = "542420230823")
     private String acquirertrxref;
 
     private List<SrcAccount> srcaccounts;
@@ -37,7 +38,7 @@ public class DemandeSoldeResponse {
     @Getter
     @Setter
     public static class Balance {
-        @Schema(description = "\"02\" = available balance")
+        @ApiModelProperty(value = "\"02\" = available balance")
         private String amountType;
         private String currency;
         private BigDecimal amount;

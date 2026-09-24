@@ -1,17 +1,18 @@
 package com.capitalbanking.stage.model.bdc;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@Schema(description = "Réponse de création de compte.")
+@ApiModel(description = "Réponse de création de compte.")
 public class CompteCreationResponse {
 
-    @Schema(example = "00200")
+    @ApiModelProperty(example = "00200")
     private String error;
 
-    @Schema(example = "Transaction acceptee")
+    @ApiModelProperty(example = "Transaction acceptée")
     private String error_description;
 }

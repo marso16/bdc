@@ -1,6 +1,7 @@
 package com.capitalbanking.stage.model.bdc;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,22 +9,22 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Schema(description = "Réponse du service AccountInquiry.")
+@ApiModel(description = "Réponse du service AccountInquiry.")
 public class AccountInquiryResponse {
 
-    @Schema(description = "Description courte de l'erreur. Vide si succès.")
+    @ApiModelProperty(value = "Description courte de l'erreur. Vide si succès.")
     private String error;
 
-    @Schema(description = "Description longue de l'erreur. Vide si succès.")
+    @ApiModelProperty(value = "Description longue de l'erreur. Vide si succès.")
     private String error_description;
 
-    @Schema(description = "Statut de la transaction: ACCEPTED ou PENDING.", example = "ACCEPTED")
+    @ApiModelProperty(value = "Statut de la transaction: ACCEPTED ou PENDING.", example = "ACCEPTED")
     private String state;
 
-    @Schema(description = "Référence de la transaction côté banque du client.", example = "134813000429")
+    @ApiModelProperty(value = "Référence de la transaction côté banque du client.", example = "134813000429")
     private String acquirertrxref;
 
-    @Schema(description = "Données du titulaire du compte.")
+    @ApiModelProperty(value = "Données du titulaire du compte.")
     private ReceiverCustomerData receivercustomerdata;
 
     @Getter

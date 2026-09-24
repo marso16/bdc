@@ -27,9 +27,7 @@ public class Param {
     private String x2;
 
     private String x3;
-
     private String x4;
-
     private String y1;
     private String y2;
     private String y3;

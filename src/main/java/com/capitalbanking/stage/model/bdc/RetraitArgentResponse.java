@@ -1,23 +1,24 @@
 package com.capitalbanking.stage.model.bdc;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@Schema(description = "Réponse du service Retrait d'argent.")
+@ApiModel(description = "Réponse du service Retrait d'argent.")
 public class RetraitArgentResponse {
 
-    @Schema
+    @ApiModelProperty
     private String error;
 
-    @Schema
+    @ApiModelProperty
     private String error_description;
 
-    @Schema(example = "948488604872")
+    @ApiModelProperty(example = "948488604872")
     private String issuertrxref;
 
-    @Schema(example = "561944928866")
+    @ApiModelProperty(example = "561944928866")
     private String acquirertrxref;
 }

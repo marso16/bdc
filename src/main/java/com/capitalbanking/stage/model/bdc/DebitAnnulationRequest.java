@@ -1,28 +1,29 @@
 package com.capitalbanking.stage.model.bdc;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@Schema(description = "Requête du service DebitAnnulation (BCC -> Participant).")
+@ApiModel(description = "Requête du service DebitAnnulation (BCC -> Participant).")
 public class DebitAnnulationRequest {
 
-    @Schema(description = "Code voucher de la transaction à annuler.",
-            example = "20547896", requiredMode = Schema.RequiredMode.REQUIRED)
+    @ApiModelProperty(value = "Code voucher de la transaction à annuler.",
+            example = "20547896", required = true)
     private String vouchercode;
 
-    @Schema(description = "Référence de transaction Switch originale.", example = "1572602202513")
+    @ApiModelProperty(value = "Référence de transaction Switch originale.", example = "1572602202513")
     private String issuertrxref;
 
-    @Schema(description = "Horodatage d'annulation (epoch ms).", example = "1504613929038")
+    @ApiModelProperty(value = "Horodatage d'annulation (epoch ms).", example = "1504613929038")
     private String updatetime;
 
-    @Schema(description = "Statut fixe: CANCELLED", example = "CANCELLED", requiredMode = Schema.RequiredMode.REQUIRED)
+    @ApiModelProperty(value = "Statut fixe: CANCELLED", example = "CANCELLED", required = true)
     private String state;
 
-    @Schema(description = "Type d'opération: direct_cash_in ou direct_cash_out",
-            example = "direct_cash_out", requiredMode = Schema.RequiredMode.REQUIRED)
+    @ApiModelProperty(value = "Type d'opération: direct_cash_in ou direct_cash_out",
+            example = "direct_cash_out", required = true)
     private String intent;
 }

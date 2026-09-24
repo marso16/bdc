@@ -6,11 +6,9 @@ import com.capitalbanking.stage.security.OAuthTokenResponse;
 import com.capitalbanking.stage.service.auth.AuthTokenService;
 import com.capitalbanking.stage.service.payment.*;
 import com.capitalbanking.stage.shared.Constants;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.slf4j.MDC;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -49,12 +47,10 @@ public class PaymentController {
     }
 
     //    ====================================================================================================================================
-    @Operation(summary = "Processus d'authentification du participant")
+    @ApiOperation(value = "Processus d'authentification du participant")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = Constants.CODE_200, description = Constants.STATUS_OK,
-                    content = @Content(schema = @Schema(implementation = OAuthTokenResponse.class))),
-            @ApiResponse(responseCode = Constants.CODE_400, description = Constants.STATUS_BAD_REQUEST,
-                    content = @Content(schema = @Schema(implementation = OAuthTokenResponse.class)))
+            @ApiResponse(code = 200, message = Constants.STATUS_OK, response = OAuthTokenResponse.class),
+            @ApiResponse(code = 400, message = Constants.STATUS_BAD_REQUEST, response = OAuthTokenResponse.class)
     })
     @PostMapping(value = "/oauth/token")
     public ResponseEntity<OAuthTokenResponse> generateOAuthToken(HttpServletRequest httpRequest) {
@@ -62,12 +58,10 @@ public class PaymentController {
     }
 
     //    ====================================================================================================================================
-    @Operation(summary = "Dépôt d'argent")
+    @ApiOperation(value = "Dépôt d'argent")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = Constants.CODE_200, description = Constants.STATUS_OK,
-                    content = @Content(schema = @Schema(implementation = DepotArgentResponse.class))),
-            @ApiResponse(responseCode = Constants.CODE_400, description = Constants.STATUS_BAD_REQUEST,
-                    content = @Content(schema = @Schema(implementation = DepotArgentResponse.class)))
+            @ApiResponse(code = 200, message = Constants.STATUS_OK, response = DepotArgentResponse.class),
+            @ApiResponse(code = 400, message = Constants.STATUS_BAD_REQUEST, response = DepotArgentResponse.class)
     })
     @PostMapping(value = "/depot")
     @PreAuthorize("hasRole('USER')")
@@ -76,12 +70,10 @@ public class PaymentController {
     }
 
     //    ====================================================================================================================================
-    @Operation(summary = "Retrait d'argent")
+    @ApiOperation(value = "Retrait d'argent")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = Constants.CODE_200, description = Constants.STATUS_OK,
-                    content = @Content(schema = @Schema(implementation = RetraitArgentResponse.class))),
-            @ApiResponse(responseCode = Constants.CODE_400, description = Constants.STATUS_BAD_REQUEST,
-                    content = @Content(schema = @Schema(implementation = RetraitArgentResponse.class)))
+            @ApiResponse(code = 200, message = Constants.STATUS_OK, response = RetraitArgentResponse.class),
+            @ApiResponse(code = 400, message = Constants.STATUS_BAD_REQUEST, response = RetraitArgentResponse.class)
     })
     @PostMapping(value = "/retrait")
     @PreAuthorize("hasRole('USER')")
@@ -90,12 +82,10 @@ public class PaymentController {
     }
 
     //    ====================================================================================================================================
-    @Operation(summary = "Annulation d'une demande de débit")
+    @ApiOperation(value = "Annulation d'une demande de débit")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = Constants.CODE_200, description = Constants.STATUS_OK,
-                    content = @Content(schema = @Schema(implementation = DebitAnnulationResponse.class))),
-            @ApiResponse(responseCode = Constants.CODE_400, description = Constants.STATUS_BAD_REQUEST,
-                    content = @Content(schema = @Schema(implementation = DebitAnnulationResponse.class)))
+            @ApiResponse(code = 200, message = Constants.STATUS_OK, response = DebitAnnulationResponse.class),
+            @ApiResponse(code = 400, message = Constants.STATUS_BAD_REQUEST, response = DebitAnnulationResponse.class)
     })
     @PostMapping(value = "/annulation")
     @PreAuthorize("hasRole('USER')")
@@ -104,12 +94,10 @@ public class PaymentController {
     }
 
     //    ====================================================================================================================================
-    @Operation(summary = "Demande de renseignements sur un paiement")
+    @ApiOperation(value = "Demande de renseignements sur un paiement")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = Constants.CODE_200, description = Constants.STATUS_OK,
-                    content = @Content(schema = @Schema(implementation = PaymentInquiryResponse.class))),
-            @ApiResponse(responseCode = Constants.CODE_400, description = Constants.STATUS_BAD_REQUEST,
-                    content = @Content(schema = @Schema(implementation = PaymentInquiryResponse.class)))
+            @ApiResponse(code = 200, message = Constants.STATUS_OK, response = PaymentInquiryResponse.class),
+            @ApiResponse(code = 400, message = Constants.STATUS_BAD_REQUEST, response = PaymentInquiryResponse.class)
     })
     @PostMapping(value = "/demandePayment")
     @PreAuthorize("hasRole('USER')")
@@ -119,12 +107,10 @@ public class PaymentController {
     }
 
     //    ====================================================================================================================================
-    @Operation(summary = "Demande de solde")
+    @ApiOperation(value = "Demande de solde")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = Constants.CODE_200, description = Constants.STATUS_OK,
-                    content = @Content(schema = @Schema(implementation = DemandeSoldeResponse.class))),
-            @ApiResponse(responseCode = Constants.CODE_400, description = Constants.STATUS_BAD_REQUEST,
-                    content = @Content(schema = @Schema(implementation = DemandeSoldeResponse.class)))
+            @ApiResponse(code = 200, message = Constants.STATUS_OK, response = DemandeSoldeResponse.class),
+            @ApiResponse(code = 400, message = Constants.STATUS_BAD_REQUEST, response = DemandeSoldeResponse.class)
     })
     @PostMapping(value = "/demandeSolde")
     @PreAuthorize("hasRole('USER')")
@@ -134,12 +120,10 @@ public class PaymentController {
     }
 
     //    ====================================================================================================================================
-    @Operation(summary = "Demande de renseignements sur un compte")
+    @ApiOperation(value = "Demande de renseignements sur un compte")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = Constants.CODE_200, description = Constants.STATUS_OK,
-                    content = @Content(schema = @Schema(implementation = AccountInquiryResponse.class))),
-            @ApiResponse(responseCode = Constants.CODE_400, description = Constants.STATUS_BAD_REQUEST,
-                    content = @Content(schema = @Schema(implementation = AccountInquiryResponse.class)))
+            @ApiResponse(code = 200, message = Constants.STATUS_OK, response = AccountInquiryResponse.class),
+            @ApiResponse(code = 400, message = Constants.STATUS_BAD_REQUEST, response = AccountInquiryResponse.class)
     })
     @PostMapping(value = "/demandeCompte")
     @PreAuthorize("hasRole('USER')")
@@ -149,12 +133,10 @@ public class PaymentController {
     }
 
     //    ====================================================================================================================================
-    @Operation(summary = "Compte Creation - Creation client et compte")
+    @ApiOperation(value = "Compte Creation - Creation client et compte")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = Constants.CODE_200, description = Constants.STATUS_OK,
-                    content = @Content(schema = @Schema(implementation = CompteCreationResponse.class))),
-            @ApiResponse(responseCode = Constants.CODE_400, description = Constants.STATUS_BAD_REQUEST,
-                    content = @Content(schema = @Schema(implementation = CompteCreationResponse.class)))
+            @ApiResponse(code = 200, message = Constants.STATUS_OK, response = CompteCreationResponse.class),
+            @ApiResponse(code = 400, message = Constants.STATUS_BAD_REQUEST, response = CompteCreationResponse.class)
     })
     @PostMapping(value = "/compteCreation")
     @PreAuthorize("hasRole('USER')")
@@ -164,12 +146,10 @@ public class PaymentController {
     }
 
     //    ====================================================================================================================================
-    @Operation(summary = "PingCGB - Verification de disponibilite du service")
+    @ApiOperation(value = "PingCGB - Verification de disponibilite du service")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = Constants.CODE_200, description = Constants.STATUS_OK,
-                    content = @Content(schema = @Schema(implementation = PingCGBResponse.class))),
-            @ApiResponse(responseCode = Constants.CODE_400, description = Constants.STATUS_BAD_REQUEST,
-                    content = @Content(schema = @Schema(implementation = PingCGBResponse.class)))
+            @ApiResponse(code = 200, message = Constants.STATUS_OK, response = PingCGBResponse.class),
+            @ApiResponse(code = 400, message = Constants.STATUS_BAD_REQUEST, response = PingCGBResponse.class)
     })
     @PostMapping(value = "/pingCGB")
     @PreAuthorize("hasRole('USER')")

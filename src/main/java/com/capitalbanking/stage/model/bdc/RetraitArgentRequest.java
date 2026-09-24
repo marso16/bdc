@@ -1,6 +1,7 @@
 package com.capitalbanking.stage.model.bdc;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,56 +12,56 @@ import java.util.List;
 
 @Getter
 @Setter
-@Schema(description = "Requête du service Retrait d'argent (BCC -> Participant).")
+@ApiModel(description = "Requête du service Retrait d'argent (BCC -> Participant).")
 public class RetraitArgentRequest {
 
     @NotBlank(message = "frommember is required")
-    @Schema(example = "0001", requiredMode = Schema.RequiredMode.REQUIRED)
+    @ApiModelProperty(example = "0001", required = true)
     private String frommember;
 
     @NotBlank(message = "fromaccount is required")
-    @Schema(example = "acc000000001", requiredMode = Schema.RequiredMode.REQUIRED)
+    @ApiModelProperty(example = "acc000000001", required = true)
     private String fromaccount;
 
     @NotBlank(message = "tomember is required")
-    @Schema(example = "0002", requiredMode = Schema.RequiredMode.REQUIRED)
+    @ApiModelProperty(example = "0002", required = true)
     private String tomember;
 
-    @Schema(example = "acc000000002")
+    @ApiModelProperty(example = "acc000000002")
     private String accountnumber;
 
     @NotBlank(message = "intent is required")
     @Pattern(regexp = "direct_cash_out", message = "intent must be direct_cash_out")
-    @Schema(example = "direct_cash_out", requiredMode = Schema.RequiredMode.REQUIRED)
+    @ApiModelProperty(example = "direct_cash_out", required = true)
     private String intent;
 
     @NotBlank(message = "amount is required")
     @Pattern(regexp = "^\\d+(\\.\\d+)?$", message = "amount must be a valid positive number")
-    @Schema(example = "1250.0", requiredMode = Schema.RequiredMode.REQUIRED)
+    @ApiModelProperty(example = "1250.0", required = true)
     private String amount;
 
     @NotBlank(message = "currency is required")
     @Pattern(regexp = "^[0-9]{3}$", message = "currency must be a 3-digit numeric ISO 4217 code")
-    @Schema(example = "174", requiredMode = Schema.RequiredMode.REQUIRED)
+    @ApiModelProperty(example = "174", required = true)
     private String currency;
 
     @NotBlank(message = "createtime is required")
-    @Schema(example = "1746416166000", requiredMode = Schema.RequiredMode.REQUIRED)
+    @ApiModelProperty(example = "1746416166000", required = true)
     private String createtime;
 
     @NotBlank(message = "issuertrxref is required")
-    @Schema(example = "948488604872", requiredMode = Schema.RequiredMode.REQUIRED)
+    @ApiModelProperty(example = "948488604872", required = true)
     private String issuertrxref;
 
     @NotBlank(message = "vouchercode is required")
-    @Schema(example = "123456", requiredMode = Schema.RequiredMode.REQUIRED)
+    @ApiModelProperty(example = "123456", required = true)
     private String vouchercode;
 
     @NotNull(message = "additionaldata is required")
-    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+    @ApiModelProperty(required = true)
     private List<AdditionalDataEntry> additionaldata;
 
-    @Schema
+    @ApiModelProperty
     private String description;
 
     @Getter
