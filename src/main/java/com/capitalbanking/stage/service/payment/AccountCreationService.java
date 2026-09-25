@@ -1,6 +1,6 @@
 package com.capitalbanking.stage.service.payment;
 
-import com.capitalbanking.stage.config.ApiResult;
+import com.capitalbanking.stage.shared.ApiResult;
 import com.capitalbanking.stage.model.bdc.CompteCreationRequest;
 import com.capitalbanking.stage.model.bdc.CompteCreationResponse;
 import com.capitalbanking.stage.model.ri_commons.CreateAccountRequest;
@@ -57,7 +57,7 @@ public class AccountCreationService {
 
             if (procResp == null) {
                 LOGGER.error("createAccount returned null for transId={}", request.getRequestID());
-                return error(response, Constants.ERR_CODE_399, Constants.ERR_MSG_399);
+                return error(response);
             }
 
             response.setError(procResp.getErrorCode());
@@ -72,14 +72,13 @@ public class AccountCreationService {
 
         } catch (Exception e) {
             LOGGER.error("==compteCreation Error===", e);
-            return error(response, Constants.ERR_CODE_399, Constants.ERR_MSG_399);
+            return error(response);
         }
     }
 
-    private ApiResult<CompteCreationResponse> error(CompteCreationResponse response,
-                                                    String code, String description) {
-        response.setError(code);
-        response.setError_description(description);
+    private ApiResult<CompteCreationResponse> error(CompteCreationResponse response) {
+        response.setError(Constants.ERR_CODE_399);
+        response.setError_description(Constants.ERR_MSG_399);
         return ApiResult.badRequest(response);
     }
 }

@@ -1,6 +1,6 @@
 package com.capitalbanking.stage.service.payment;
 
-import com.capitalbanking.stage.config.ApiResult;
+import com.capitalbanking.stage.shared.ApiResult;
 import com.capitalbanking.stage.model.bdc.DebitAnnulationRequest;
 import com.capitalbanking.stage.model.bdc.DebitAnnulationResponse;
 import com.capitalbanking.stage.model.ri_commons.CancelTransRequest;

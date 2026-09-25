@@ -1,9 +1,8 @@
-package com.capitalbanking.stage.service.payment;
+package com.capitalbanking.stage.service.core;
 
-import com.capitalbanking.stage.config.ApiResult;
+import com.capitalbanking.stage.shared.ApiResult;
 import com.capitalbanking.stage.model.bdc.PingCGBRequest;
 import com.capitalbanking.stage.model.bdc.PingCGBResponse;
-import com.capitalbanking.stage.service.core.GlobalCoreService;
 import com.capitalbanking.stage.shared.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +19,6 @@ public class PingService {
         this.globalCoreService = globalCoreService;
     }
 
-    // ----------------------------------------------------- ping CGB
     public ApiResult<PingCGBResponse> pingCGB(PingCGBRequest request) {
         PingCGBResponse response = new PingCGBResponse();
         response.setIssuertrxref(request.getIssuertrxref());
@@ -29,7 +27,7 @@ public class PingService {
             response.setAvailable(cutOff ? Constants.FLAG_FALSE : Constants.FLAG_TRUE);
             return ApiResult.ok(response);
         } catch (Exception e) {
-            LOGGER.error("==Ping Error===", e);
+            LOGGER.error("==pingCGB Error===", e);
             response.setAvailable(Constants.FLAG_FALSE);
             response.setError(Constants.ERR_CODE_500);
             response.setError_description(Constants.ERR_MSG_500);

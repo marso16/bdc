@@ -67,15 +67,14 @@ public class BccSwitchCallHelper {
         }
 
         int status = con.getResponseCode();
-        String responseBody = readBody(status >= Integer.parseInt(Constants.CODE_400)
-                ? con.getErrorStream() : con.getInputStream());
+        String responseBody = readBody(status >= 400 ? con.getErrorStream() : con.getInputStream());
         logResponseHeaders(con);
         con.disconnect();
 
         LOGGER.info("getAccessToken -> HTTP {}", status);
         LOGGER.info("getAccessToken -> Response: {}", responseBody);
 
-        if (status >= Integer.parseInt(Constants.CODE_400)) {
+        if (status >= 400) {
             throw new BccHttpException(status, "Authentication failed: " + responseBody);
         }
 
@@ -171,8 +170,7 @@ public class BccSwitchCallHelper {
             LOGGER.warn("REDIRECT LOCATION DETECTED : {}", locationHeader);
         }
 
-        String responseBody = readBody(status >= Integer.parseInt(Constants.CODE_400)
-                ? con.getErrorStream() : con.getInputStream());
+        String responseBody = readBody(status >= 400 ? con.getErrorStream() : con.getInputStream());
         con.disconnect();
 
         LOGGER.info("RESPONSE BODY ================================================");
@@ -181,7 +179,7 @@ public class BccSwitchCallHelper {
         LOGGER.info("BCC {} END", operationLabel);
         LOGGER.info("================================================================");
 
-        if (status >= Integer.parseInt(Constants.CODE_400)) {
+        if (status >= 400) {
             throw new BccHttpException(status, responseBody);
         }
 

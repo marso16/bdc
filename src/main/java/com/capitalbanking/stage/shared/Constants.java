@@ -4,7 +4,6 @@ public class Constants {
 
     public static final String STATUS_OK = "OK";
     public static final String STATUS_KO = "KO";
-    public static final String STATUS_BAD_REQUEST = "Bad Request";
     public static final String STATUS_ACCEPTED = "ACCEPTED";
     public static final String STATUS_REJECTED = "REJECTED";
     public static final String STATUS_PENDING = "PENDING";
@@ -12,9 +11,6 @@ public class Constants {
     public static final String FLAG_DISPONIBLE = "DISPONIBLE";
     public static final String FLAG_TRUE = "TRUE";
     public static final String FLAG_FALSE = "FALSE";
-
-    public static final String CODE_200 = "200";
-    public static final String CODE_400 = "400";
 
     public static final String AUDIENCE_WEB = "web";
 

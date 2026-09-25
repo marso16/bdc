@@ -1,4 +1,4 @@
-package com.capitalbanking.stage.config;
+package com.capitalbanking.stage.shared;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,10 +27,6 @@ public final class ApiResult<T> {
 
     public HttpStatus status() {
         return status;
-    }
-
-    public T body() {
-        return body;
     }
 
     public ResponseEntity<T> toResponseEntity() {

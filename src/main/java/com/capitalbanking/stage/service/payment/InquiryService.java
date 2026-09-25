@@ -1,6 +1,6 @@
 package com.capitalbanking.stage.service.payment;
 
-import com.capitalbanking.stage.config.ApiResult;
+import com.capitalbanking.stage.shared.ApiResult;
 import com.capitalbanking.stage.model.bdc.*;
 import com.capitalbanking.stage.model.core.Compte;
 import com.capitalbanking.stage.model.ri_commons.RequestSoldeRequest;

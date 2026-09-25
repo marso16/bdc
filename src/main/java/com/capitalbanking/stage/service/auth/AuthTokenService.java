@@ -1,6 +1,6 @@
 package com.capitalbanking.stage.service.auth;
 
-import com.capitalbanking.stage.config.ApiResult;
+import com.capitalbanking.stage.shared.ApiResult;
 import com.capitalbanking.stage.security.OAuthTokenResponse;
 import com.capitalbanking.stage.security.TokenHelper;
 import com.capitalbanking.stage.security.User;
