@@ -16,17 +16,13 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
-    private final Log logger = LogFactory.getLog(this.getClass());
-
-    private TokenHelper tokenHelper;
-
-    private UserDetailsService userDetailsService;
+    private final TokenHelper tokenHelper;
+    private final UserDetailsService userDetailsService;
 
     public TokenAuthenticationFilter(TokenHelper tokenHelper, UserDetailsService userDetailsService) {
         this.tokenHelper = tokenHelper;
         this.userDetailsService = userDetailsService;
     }
-
 
     @Override
     public void doFilterInternal(
@@ -54,5 +50,4 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         }
         chain.doFilter(request, response);
     }
-
 }

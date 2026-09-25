@@ -37,21 +37,6 @@ public class TokenHelper {
         }
     }
 
-    public String refreshToken(String token) {
-        try {
-            final Claims claims = getAllClaimsFromToken(token);
-            assert claims != null;
-            claims.setIssuedAt(new Date());
-            return Jwts.builder()
-                    .setClaims(claims)
-                    .setExpiration(generateExpirationDate())
-                    .signWith(SIGNATURE_ALGORITHM, SECRET)
-                    .compact();
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
     public String generateToken(String username) {
         return Jwts.builder()
                 .setIssuer(APP_NAME)

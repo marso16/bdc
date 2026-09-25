@@ -11,7 +11,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "RI_AUTHORITY_WS")
+@Table(name = "ri_authority_ws")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -32,9 +32,5 @@ public class Authority implements GrantedAuthority {
     @Override
     public String getAuthority() {
         return name != null ? name.name() : null;
-    }
-
-    public UserRoleName getLabel() {
-        return name;
     }
 }

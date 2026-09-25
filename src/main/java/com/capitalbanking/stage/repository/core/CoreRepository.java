@@ -22,7 +22,6 @@ public class CoreRepository {
         this.em = em;
     }
 
-    // table state
     public String getBankCodbnq() {
         return getCodbnq();
     }
@@ -44,18 +43,6 @@ public class CoreRepository {
                 operation, clientType);
         LOGGER.info("getModev: operation={}, clientType={} -> y1={}", operation, clientType, y1);
         return y1;
-    }
-
-    // table fx5y8
-    public String getFx5y8Value(String tname, String model, String x1, String x2) {
-        Param param = Param.builder()
-                .tname(tname)
-                .model(model)
-                .x1(x1)
-                .x2(x2)
-                .build();
-        List<Param> results = paramRepository.getParamBy(param);
-        return (results != null && !results.isEmpty()) ? results.get(0).getY1() : null;
     }
 
     private String getFx5y8ValueWithX4(String x1, String x4) {
