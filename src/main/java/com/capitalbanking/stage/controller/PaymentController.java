@@ -8,7 +8,6 @@ import com.capitalbanking.stage.service.payment.AccountCreationService;
 import com.capitalbanking.stage.service.payment.CancellationService;
 import com.capitalbanking.stage.service.payment.InquiryService;
 import com.capitalbanking.stage.service.payment.TransferService;
-import com.capitalbanking.stage.shared.Constants;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
