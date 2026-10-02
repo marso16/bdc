@@ -13,7 +13,6 @@ import javax.validation.constraints.Pattern;
 @ApiModel(description = "Requête du service Depot d'argent (BCC -> Participant).")
 public class DepotArgentRequest {
 
-    @NotBlank(message = "frommember is required")
     @ApiModelProperty(value = "Identifiant du participant source (banque de l'agent).",
             example = "0001", required = true)
     private String frommember;
@@ -21,12 +20,10 @@ public class DepotArgentRequest {
     @ApiModelProperty(value = "Numéro de compte de l'agent (débiteur).", example = "acc000000001")
     private String fromaccount;
 
-    @NotBlank(message = "tomember is required")
     @ApiModelProperty(value = "Identifiant du participant destination (banque du client).",
             example = "0002", required = true)
     private String tomember;
 
-    @NotBlank(message = "accountnumber is required")
     @ApiModelProperty(value = "Numéro de compte du client (créditeur).", example = "acc000000002", required = true)
     private String accountnumber;
 

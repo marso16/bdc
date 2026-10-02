@@ -15,19 +15,15 @@ import java.util.List;
 @ApiModel(description = "Requête du service Retrait d'argent (BCC -> Participant).")
 public class RetraitArgentRequest {
 
-    @NotBlank(message = "frommember is required")
     @ApiModelProperty(example = "0001", required = true)
     private String frommember;
 
-    @NotBlank(message = "fromaccount is required")
     @ApiModelProperty(example = "acc000000001", required = true)
     private String fromaccount;
 
-    @NotBlank(message = "tomember is required")
     @ApiModelProperty(example = "0002", required = true)
     private String tomember;
 
-    @ApiModelProperty(example = "acc000000002")
     private String accountnumber;
 
     @NotBlank(message = "intent is required")

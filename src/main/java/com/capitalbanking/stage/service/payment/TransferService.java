@@ -66,7 +66,7 @@ public class TransferService {
                     }
                 } else {
                     return depotError(response, Constants.ERR_CODE_304,
-                            "fromaccount is required when frommember is your own bank");
+                            "tomember should be the bank's client");
                 }
             }
 
