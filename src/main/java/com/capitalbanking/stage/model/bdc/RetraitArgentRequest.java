@@ -53,7 +53,6 @@ public class RetraitArgentRequest {
     @ApiModelProperty(example = "123456", required = true)
     private String vouchercode;
 
-    @NotNull(message = "additionaldata is required")
     @ApiModelProperty(required = true)
     private List<AdditionalDataEntry> additionaldata;
 

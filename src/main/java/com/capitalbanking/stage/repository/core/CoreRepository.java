@@ -26,11 +26,21 @@ public class CoreRepository {
         return getCodbnq();
     }
 
+    public Object[] getDevRef() {
+        String sql = "SELECT x.devref, dx.ison FROM state x, devises dx WHERE x.devref = dx.devise";
+
+        try {
+            return (Object[]) em.createNativeQuery(sql).getSingleResult();
+        } catch (Exception e) {
+            LOGGER.error("Failed to execute getDevRef query", e);
+            return null;
+        }
+    }
+
     private String getCodbnq() {
         String sql = "SELECT p.iso || LPAD(t.codbnq, 6, '0') FROM state t, pays p WHERE p.pays = t.pays";
         try {
-            Object result = em.createNativeQuery(sql)
-                    .getSingleResult();
+            Object result = em.createNativeQuery(sql).getSingleResult();
             return result != null ? result.toString() : null;
         } catch (Exception e) {
             LOGGER.error("Failed to execute getStateField query: {}", e.getMessage());
@@ -57,24 +67,15 @@ public class CoreRepository {
         return (results != null && !results.isEmpty()) ? results.get(0).getY1() : null;
     }
 
-    public String getDepotPoolAccount() {
-        String sql = "SELECT y1 FROM fx5y8 WHERE tname = 'RI_COMMONS' AND model = 'POOLACC' AND x1 = 'DEPOT'";
+    public String getPoolAccount(String x1) {
+        String sql = "SELECT y1 FROM fx5y8 WHERE tname = 'RI_COMMONS' AND model = 'POOLACC' AND x1 = :x1";
         try {
-            Object result = em.createNativeQuery(sql).getSingleResult();
+            Object result = em.createNativeQuery(sql)
+                    .setParameter("x1", x1)
+                    .getSingleResult();
             return result != null ? result.toString() : null;
         } catch (Exception e) {
-            LOGGER.error("Failed to get depot pool account: {}", e.getMessage());
-            return null;
-        }
-    }
-
-    public String getRetraitPoolAccount() {
-        String sql = "SELECT y1 FROM fx5y8 WHERE tname = 'RI_COMMONS' AND model = 'POOLACC' AND x1 = 'RETRAIT'";
-        try {
-            Object result = em.createNativeQuery(sql).getSingleResult();
-            return result != null ? result.toString() : null;
-        } catch (Exception e) {
-            LOGGER.error("Failed to get retrait pool account: {}", e.getMessage());
+            LOGGER.error("Failed to get depot pool account for x1={}: {}", x1, e.getMessage());
             return null;
         }
     }

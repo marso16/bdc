@@ -26,7 +26,6 @@ public class SaveInternalRequestRequest {
     private String refrel;
 
     @ApiModelProperty(value = "Date du paiement (format ISO yyyy-MM-dd).", example = "2025-10-31", required = true)
-    @NotNull(message = "paymentDate est obligatoire (format yyyy-MM-dd)")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate paymentDate;
 
@@ -51,7 +50,6 @@ public class SaveInternalRequestRequest {
     private String benefBicCode;
 
     @ApiModelProperty(value = "Montant du virement (strictement positif).", example = "150.00", required = true)
-    @NotNull(message = "amount est obligatoire")
     @DecimalMin(value = "0.01", message = "amount doit être strictement positif")
     private Double amount;
 

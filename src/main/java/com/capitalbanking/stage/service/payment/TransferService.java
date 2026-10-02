@@ -1,6 +1,5 @@
 package com.capitalbanking.stage.service.payment;
 
-import com.capitalbanking.stage.shared.ApiResult;
 import com.capitalbanking.stage.model.bdc.DepotArgentRequest;
 import com.capitalbanking.stage.model.bdc.DepotArgentResponse;
 import com.capitalbanking.stage.model.bdc.RetraitArgentRequest;
@@ -11,6 +10,7 @@ import com.capitalbanking.stage.model.ri_commons.SaveInternalRequestResponse;
 import com.capitalbanking.stage.repository.core.CoreRepository;
 import com.capitalbanking.stage.service.core.CompteService;
 import com.capitalbanking.stage.service.ri_commons.RiTransferService;
+import com.capitalbanking.stage.shared.ApiResult;
 import com.capitalbanking.stage.shared.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +45,15 @@ public class TransferService {
 
         try {
             String bankCodbnq = coreRepository.getBankCodbnq();
+            Object[] deviseData = coreRepository.getDevRef();
+
+            String devRef = deviseData[0].toString();
+            String devIson = deviseData[1].toString();
+
+            if (request.getCurrency() == null || request.getCurrency().isEmpty() || !request.getCurrency().equals(devIson)) {
+                return depotError(response, Constants.ERR_CODE_399,
+                        "Currency must be only: " + devIson + " (" + devRef + ")");
+            }
 
             String fromAccount = (request.getFromaccount() == null || request.getFromaccount().trim().isEmpty())
                     ? null : request.getFromaccount().trim();
@@ -58,7 +67,7 @@ public class TransferService {
 
             if (fromAccount == null) {
                 if (isExternalMember) {
-                    fromAccount = coreRepository.getDepotPoolAccount();
+                    fromAccount = coreRepository.getPoolAccount("DEPOT");
                     LOGGER.info("depot: fromaccount is blank and frommember is external -> using pool account: {}", fromAccount);
                     if (fromAccount == null) {
                         return depotError(response, Constants.ERR_CODE_399,
@@ -150,6 +159,15 @@ public class TransferService {
 
         try {
             String bankCodbnq = coreRepository.getBankCodbnq();
+            Object[] deviseData = coreRepository.getDevRef();
+
+            String devRef = deviseData[0].toString();
+            String devIson = deviseData[1].toString();
+
+            if (request.getCurrency() == null || request.getCurrency().isEmpty() || !request.getCurrency().equals(devIson)) {
+                return retraitError(response, Constants.ERR_CODE_399,
+                        "Currency must be only: " + devIson + " (" + devRef + ")");
+            }
 
             String accountNumber = (request.getAccountnumber() == null || request.getAccountnumber().trim().isEmpty())
                     ? null : request.getAccountnumber().trim();
@@ -163,7 +181,7 @@ public class TransferService {
 
             if (accountNumber == null) {
                 if (isExternalTomember) {
-                    accountNumber = coreRepository.getRetraitPoolAccount();
+                    accountNumber = coreRepository.getPoolAccount("RETRAIT");
                     LOGGER.info("retrait: accountnumber is blank and tomember is external -> using pool account: {}", accountNumber);
                     if (accountNumber == null) {
                         return retraitError(response, Constants.ERR_CODE_399,
