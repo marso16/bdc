@@ -43,8 +43,6 @@ public class Constants {
     public static final String ERR_CODE_500 = "00500";
     public static final String ERR_CODE_1000 = "01000";
     public static final String ERR_CODE_200 = "00200";
-    public static final String BCC_SUCCESS_CODE = "200";
-    public static final String BCC_SUCCESS_MSG = "Transaction acceptée";
 
     public static final String ERR_MSG_300 = "Les comptes de débit et de crédit doivent être différents";
     public static final String ERR_MSG_301 = "Le compte n'est pas valide. Il n'existe pas";
