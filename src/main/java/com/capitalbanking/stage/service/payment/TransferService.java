@@ -55,6 +55,12 @@ public class TransferService {
                         "Currency must be only: " + devIson + " (" + devRef + ")");
             }
 
+            // A deposit always credits one of our own clients: tomember must always be us.
+            if (!bankCodbnq.equals(request.getTomember())) {
+                return depotError(response, Constants.ERR_CODE_399,
+                        "tomember must be the bank's own code for a deposit");
+            }
+
             String fromAccount = (request.getFromaccount() == null || request.getFromaccount().trim().isEmpty())
                     ? null : request.getFromaccount().trim();
 
@@ -75,7 +81,7 @@ public class TransferService {
                     }
                 } else {
                     return depotError(response, Constants.ERR_CODE_304,
-                            "tomember should be the bank's client");
+                            "fromaccount is required when frommember is your own bank");
                 }
             }
 
@@ -169,6 +175,12 @@ public class TransferService {
                         "Currency must be only: " + devIson + " (" + devRef + ")");
             }
 
+            // A withdrawal always debits one of our own clients: frommember must always be us.
+            if (!bankCodbnq.equals(request.getFrommember())) {
+                return retraitError(response, Constants.ERR_CODE_399,
+                        "frommember '" + request.getFrommember() + "' is not valid");
+            }
+
             String accountNumber = (request.getAccountnumber() == null || request.getAccountnumber().trim().isEmpty())
                     ? null : request.getAccountnumber().trim();
 
@@ -213,11 +225,6 @@ public class TransferService {
             if (agentCompte == null) {
                 return retraitError(response, Constants.ERR_CODE_301,
                         "Agent account not found: " + accountNumber);
-            }
-
-            if (!bankCodbnq.equals(request.getFrommember())) {
-                return retraitError(response, Constants.ERR_CODE_399,
-                        "frommember '" + request.getFrommember() + "' is not valid");
             }
 
             String toMember = request.getTomember();
