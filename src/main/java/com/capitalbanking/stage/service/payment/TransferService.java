@@ -55,7 +55,6 @@ public class TransferService {
                         "La devise doit être exclusivement : " + devIson + " (" + devRef + ")");
             }
 
-            // Un dépôt crédite toujours un compte de notre propre banque : tomember doit toujours être nous.
             if (!bankCodbnq.equals(request.getTomember())) {
                 return depotError(response, Constants.ERR_CODE_399,
                         "Le participant destinataire (tomember) doit être le code de notre banque pour un dépôt");
@@ -180,7 +179,6 @@ public class TransferService {
                         "La devise doit être exclusivement : " + devIson + " (" + devRef + ")");
             }
 
-            // Un retrait débite toujours un compte de notre propre banque : frommember doit toujours être nous.
             if (!bankCodbnq.equals(request.getFrommember())) {
                 return retraitError(response, Constants.ERR_CODE_399,
                         "Le participant émetteur (frommember) '" + request.getFrommember()
@@ -199,7 +197,8 @@ public class TransferService {
 
             if (isExternalTomember && accountNumber != null) {
                 return retraitError(response, Constants.ERR_CODE_399,
-                        "Le compte bénéficiaire (accountnumber) doit être vide lorsque le participant destinataire (tomember) est externe");
+                        "Le compte bénéficiaire (accountnumber) doit être vide " +
+                                "lorsque le participant destinataire (tomember) est externe");
             }
 
             if (accountNumber == null) {
@@ -212,7 +211,8 @@ public class TransferService {
                     }
                 } else {
                     return retraitError(response, Constants.ERR_CODE_304,
-                            "Le compte bénéficiaire (accountnumber) est obligatoire lorsque le participant destinataire (tomember) est notre banque");
+                            "Le compte bénéficiaire (accountnumber) est " +
+                                    "obligatoire lorsque le participant destinataire (tomember) est notre banque");
                 }
             }
 
