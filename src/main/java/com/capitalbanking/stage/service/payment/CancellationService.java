@@ -53,8 +53,8 @@ public class CancellationService {
             }
 
             if (Constants.STATUS_OK.equalsIgnoreCase(result.getStatus())) {
-                response.setError("");
-                response.setError_description("");
+                response.setError(Constants.BCC_SUCCESS_CODE);
+                response.setError_description(Constants.BCC_SUCCESS_MSG);
                 return ApiResult.ok(response);
             } else {
                 response.setError(result.getErrorCode());

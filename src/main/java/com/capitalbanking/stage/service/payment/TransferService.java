@@ -142,8 +142,8 @@ public class TransferService {
             }
 
             boolean ok = Constants.STATUS_OK.equalsIgnoreCase(internalResp.getStatus());
-            response.setError(ok ? "" : internalResp.getErrorCode());
-            response.setError_description(ok ? "" : internalResp.getErrorMsg());
+            response.setError(ok ? Constants.BCC_SUCCESS_CODE : internalResp.getErrorCode());
+            response.setError_description(ok ? Constants.BCC_SUCCESS_MSG : internalResp.getErrorMsg());
             response.setAcquirertrxref(internalResp.getBankReference());
 
             switchNotifier.notifyPayment(request.getIssuertrxref(), request.getVouchercode(),
@@ -275,8 +275,8 @@ public class TransferService {
             }
 
             boolean ok = Constants.STATUS_OK.equalsIgnoreCase(internalResp.getStatus());
-            response.setError(ok ? "" : internalResp.getErrorCode());
-            response.setError_description(ok ? "" : internalResp.getErrorMsg());
+            response.setError(ok ? Constants.BCC_SUCCESS_CODE : internalResp.getErrorCode());
+            response.setError_description(ok ? Constants.BCC_SUCCESS_MSG : internalResp.getErrorMsg());
             response.setAcquirertrxref(internalResp.getBankReference());
 
             switchNotifier.notifyPayment(request.getIssuertrxref(), request.getVouchercode(),

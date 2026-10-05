@@ -60,10 +60,10 @@ public class AccountCreationService {
                 return error(response);
             }
 
-            response.setError(procResp.getErrorCode());
-            response.setError_description(procResp.getErrorMsg());
-
             boolean ok = Constants.STATUS_OK.equalsIgnoreCase(procResp.getStatus());
+            response.setError(ok ? Constants.BCC_SUCCESS_CODE : procResp.getErrorCode());
+            response.setError_description(ok ? Constants.BCC_SUCCESS_MSG : procResp.getErrorMsg());
+
             switchNotifier.notifyEnrollment(
                     request.getRequestID(),
                     ok ? Constants.STATE_ACCEPTED : Constants.STATE_REJECTED,

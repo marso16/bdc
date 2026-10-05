@@ -6,6 +6,7 @@ import com.capitalbanking.stage.model.core.Compte;
 import com.capitalbanking.stage.model.ri_commons.RequestSoldeRequest;
 import com.capitalbanking.stage.model.ri_commons.RequestSoldeResponse;
 import com.capitalbanking.stage.repository.core.CompteRepository;
+import com.capitalbanking.stage.repository.core.CoreRepository;
 import com.capitalbanking.stage.service.core.CompteService;
 import com.capitalbanking.stage.service.ri_commons.RiTransferService;
 import com.capitalbanking.stage.shared.Constants;
@@ -27,15 +28,18 @@ public class InquiryService {
     private final CompteService compteService;
     private final CompteRepository compteRepository;
     private final RiTransferService riTransferService;
+    private final CoreRepository coreRepository;
     private final ObjectMapper objectMapper;
 
     public InquiryService(CompteService compteService,
                           CompteRepository compteRepository,
                           RiTransferService riTransferService,
+                          CoreRepository coreRepository,
                           ObjectMapper objectMapper) {
         this.compteService = compteService;
         this.compteRepository = compteRepository;
         this.riTransferService = riTransferService;
+        this.coreRepository = coreRepository;
         this.objectMapper = objectMapper;
     }
 
@@ -122,14 +126,19 @@ public class InquiryService {
                 return ApiResult.badRequest(response);
             }
 
-            response.setError(soldeResp.getErrorCode());
-            response.setError_description(soldeResp.getErrorMsg());
+            boolean ok = Constants.STATUS_OK.equalsIgnoreCase(soldeResp.getStatus());
+            response.setError(ok ? Constants.BCC_SUCCESS_CODE : soldeResp.getErrorCode());
+            response.setError_description(ok ? Constants.BCC_SUCCESS_MSG : soldeResp.getErrorMsg());
             response.setAcquirertrxref(soldeResp.getBankReference());
 
-            if (Constants.STATUS_OK.equalsIgnoreCase(soldeResp.getStatus())) {
+            if (ok) {
+                Object[] deviseData = coreRepository.getDevRef();
+                String devIson = (deviseData != null && deviseData[1] != null)
+                        ? deviseData[1].toString() : soldeResp.getDevise();
+
                 DemandeSoldeResponse.Balance balance = new DemandeSoldeResponse.Balance();
                 balance.setAmountType("02");
-                balance.setCurrency(soldeResp.getDevise());
+                balance.setCurrency(devIson);
                 balance.setAmount(soldeResp.getSoldeDisp() != null
                         ? new BigDecimal(soldeResp.getSoldeDisp()) : BigDecimal.ZERO);
 
@@ -177,8 +186,8 @@ public class InquiryService {
 
             if (results == null || results.isEmpty()) {
                 LOGGER.warn("No idp record found for account: {}", accountNumber);
-                response.setError("");
-                response.setError_description("");
+                response.setError(Constants.BCC_SUCCESS_CODE);
+                response.setError_description(Constants.BCC_SUCCESS_MSG);
                 response.setState(Constants.STATUS_ACCEPTED);
                 response.setAcquirertrxref(accountNumber);
                 response.setReceivercustomerdata(new AccountInquiryResponse.ReceiverCustomerData());
@@ -205,8 +214,8 @@ public class InquiryService {
                             str(row[13])  // birthdate
                     );
 
-            response.setError("");
-            response.setError_description("");
+            response.setError(Constants.BCC_SUCCESS_CODE);
+            response.setError_description(Constants.BCC_SUCCESS_MSG);
             response.setState(Constants.STATUS_ACCEPTED);
             response.setAcquirertrxref(accountNumber);
             response.setReceivercustomerdata(customerData);
