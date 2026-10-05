@@ -52,13 +52,13 @@ public class TransferService {
 
             if (request.getCurrency() == null || request.getCurrency().isEmpty() || !request.getCurrency().equals(devIson)) {
                 return depotError(response, Constants.ERR_CODE_399,
-                        "Currency must be only: " + devIson + " (" + devRef + ")");
+                        "La devise doit être exclusivement : " + devIson + " (" + devRef + ")");
             }
 
-            // A deposit always credits one of our own clients: tomember must always be us.
+            // Un dépôt crédite toujours un compte de notre propre banque : tomember doit toujours être nous.
             if (!bankCodbnq.equals(request.getTomember())) {
                 return depotError(response, Constants.ERR_CODE_399,
-                        "tomember must be the bank's own code for a deposit");
+                        "Le participant destinataire (tomember) doit être le code de notre banque pour un dépôt");
             }
 
             String fromAccount = (request.getFromaccount() == null || request.getFromaccount().trim().isEmpty())
@@ -68,7 +68,7 @@ public class TransferService {
 
             if (isExternalMember && fromAccount != null) {
                 return depotError(response, Constants.ERR_CODE_399,
-                        "fromaccount must be empty when frommember is an external participant");
+                        "Le compte émetteur (fromaccount) doit être vide lorsque le participant émetteur (frommember) est externe");
             }
 
             if (fromAccount == null) {
@@ -77,29 +77,34 @@ public class TransferService {
                     LOGGER.info("depot: fromaccount is blank and frommember is external -> using pool account: {}", fromAccount);
                     if (fromAccount == null) {
                         return depotError(response, Constants.ERR_CODE_399,
-                                "Pool account not configured for DEPOT in fx5y8");
+                                "Aucun compte de pool n'est configuré pour le dépôt (paramétrage fx5y8)");
                     }
                 } else {
                     return depotError(response, Constants.ERR_CODE_304,
-                            "fromaccount is required when frommember is your own bank");
+                            "Le compte émetteur (fromaccount) est obligatoire lorsque le participant émetteur (frommember) est notre banque");
                 }
             }
 
-            if (fromAccount.equals(request.getAccountnumber() != null
-                    ? request.getAccountnumber().trim() : "")) {
+            String accountNumber = request.getAccountnumber() != null ? request.getAccountnumber().trim() : "";
+            if (accountNumber.isEmpty()) {
+                return depotError(response, Constants.ERR_CODE_304,
+                        "Le compte bénéficiaire (accountnumber) est obligatoire pour un dépôt");
+            }
+
+            if (fromAccount.equals(accountNumber)) {
                 return depotError(response, Constants.ERR_CODE_300, Constants.ERR_MSG_300);
             }
 
             Compte payerCompte = compteService.findCompteByCompte(fromAccount);
             if (payerCompte == null) {
                 return depotError(response, Constants.ERR_CODE_301,
-                        "Payer account not found: " + fromAccount);
+                        "Compte émetteur introuvable : " + fromAccount);
             }
 
-            Compte benefCompte = compteService.findCompteByCompte(request.getAccountnumber().trim());
+            Compte benefCompte = compteService.findCompteByCompte(accountNumber);
             if (benefCompte == null) {
                 return depotError(response, Constants.ERR_CODE_301,
-                        "Beneficiary account not found: " + request.getAccountnumber());
+                        "Compte bénéficiaire introuvable : " + accountNumber);
             }
 
             String clientType = bankCodbnq.equals(request.getFrommember())
@@ -116,7 +121,7 @@ public class TransferService {
                             : request.getIssuertrxref())
                     .payerAccount(fromAccount)
                     .benefName(benefCompte.getClient().getClient())
-                    .benefAccount(request.getAccountnumber())
+                    .benefAccount(accountNumber)
                     .benefBicCode(payerCompte.getClient().getClient())
                     .amount(Double.parseDouble(request.getAmount()))
                     .benefCurrency(request.getCurrency())
@@ -172,13 +177,19 @@ public class TransferService {
 
             if (request.getCurrency() == null || request.getCurrency().isEmpty() || !request.getCurrency().equals(devIson)) {
                 return retraitError(response, Constants.ERR_CODE_399,
-                        "Currency must be only: " + devIson + " (" + devRef + ")");
+                        "La devise doit être exclusivement : " + devIson + " (" + devRef + ")");
             }
 
-            // A withdrawal always debits one of our own clients: frommember must always be us.
+            // Un retrait débite toujours un compte de notre propre banque : frommember doit toujours être nous.
             if (!bankCodbnq.equals(request.getFrommember())) {
                 return retraitError(response, Constants.ERR_CODE_399,
-                        "frommember '" + request.getFrommember() + "' is not valid");
+                        "Le participant émetteur (frommember) '" + request.getFrommember()
+                                + "' n'est pas valide : un retrait doit toujours provenir d'un compte de notre banque");
+            }
+
+            if (request.getFromaccount() == null || request.getFromaccount().trim().isEmpty()) {
+                return retraitError(response, Constants.ERR_CODE_304,
+                        "Le compte émetteur (fromaccount) est obligatoire pour un retrait");
             }
 
             String accountNumber = (request.getAccountnumber() == null || request.getAccountnumber().trim().isEmpty())
@@ -188,7 +199,7 @@ public class TransferService {
 
             if (isExternalTomember && accountNumber != null) {
                 return retraitError(response, Constants.ERR_CODE_399,
-                        "accountnumber must be empty when tomember is an external participant");
+                        "Le compte bénéficiaire (accountnumber) doit être vide lorsque le participant destinataire (tomember) est externe");
             }
 
             if (accountNumber == null) {
@@ -197,18 +208,18 @@ public class TransferService {
                     LOGGER.info("retrait: accountnumber is blank and tomember is external -> using pool account: {}", accountNumber);
                     if (accountNumber == null) {
                         return retraitError(response, Constants.ERR_CODE_399,
-                                "Pool account not configured for RETRAIT in fx5y8");
+                                "Aucun compte de pool n'est configuré pour le retrait (paramétrage fx5y8)");
                     }
                 } else {
                     return retraitError(response, Constants.ERR_CODE_304,
-                            "accountnumber is required when tomember is your own bank");
+                            "Le compte bénéficiaire (accountnumber) est obligatoire lorsque le participant destinataire (tomember) est notre banque");
                 }
             }
 
             String otp = extractOtp(request);
             if (otp == null || otp.trim().isEmpty()) {
                 return retraitError(response, Constants.ERR_CODE_399,
-                        "OTP is required in additionaldata");
+                        "Le code OTP est obligatoire dans additionaldata");
             }
 
             if (request.getFromaccount().trim().equals(accountNumber)) {
@@ -218,13 +229,13 @@ public class TransferService {
             Compte payerCompte = compteService.findCompteByCompte(request.getFromaccount().trim());
             if (payerCompte == null) {
                 return retraitError(response, Constants.ERR_CODE_301,
-                        "Customer account not found: " + request.getFromaccount());
+                        "Compte client introuvable : " + request.getFromaccount());
             }
 
             Compte agentCompte = compteService.findCompteByCompte(accountNumber);
             if (agentCompte == null) {
                 return retraitError(response, Constants.ERR_CODE_301,
-                        "Agent account not found: " + accountNumber);
+                        "Compte agent introuvable : " + accountNumber);
             }
 
             String toMember = request.getTomember();

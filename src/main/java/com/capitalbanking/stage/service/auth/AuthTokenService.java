@@ -56,7 +56,7 @@ public class AuthTokenService {
 
             if (!expectedClientId.equals(clientId) || !expectedClientSecret.equals(clientSecret)) {
                 response.setError("invalid_client");
-                response.setErrorDescription("Invalid client credentials");
+                response.setErrorDescription("Identifiants client invalides");
                 return ApiResult.status(HttpStatus.UNAUTHORIZED, response);
             }
 
@@ -81,12 +81,12 @@ public class AuthTokenService {
         } catch (AuthenticationException ex) {
             LOGGER.error("OAuth authentication failed: {}", ex.getMessage());
             response.setError("invalid_grant");
-            response.setErrorDescription("Bad credentials");
+            response.setErrorDescription("Identifiants incorrects");
             return ApiResult.status(HttpStatus.UNAUTHORIZED, response);
         } catch (Exception e) {
             LOGGER.error("OAuth token generation error", e);
             response.setError("server_error");
-            response.setErrorDescription("Internal server error");
+            response.setErrorDescription("Erreur interne du serveur");
             return ApiResult.status(HttpStatus.INTERNAL_SERVER_ERROR, response);
         }
     }

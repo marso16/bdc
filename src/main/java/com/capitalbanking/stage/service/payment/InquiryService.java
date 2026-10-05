@@ -61,7 +61,7 @@ public class InquiryService {
             if (json == null || json.trim().isEmpty()) {
                 PaymentInquiryResponse err = new PaymentInquiryResponse();
                 err.setState(Constants.STATUS_PENDING);
-                err.setRejectMessage("Transaction not found");
+                err.setRejectMessage("Transaction introuvable");
                 return ApiResult.badRequest(err);
             }
 

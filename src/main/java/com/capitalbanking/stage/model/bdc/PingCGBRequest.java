@@ -16,8 +16,8 @@ public class PingCGBRequest {
 
     @ApiModelProperty(value = "Unique transaction identifier by API call (max 16 characters).",
             example = "TX2025110412345678", required = true)
-    @NotBlank(message = "Invalid transaction ID")
-    @Size(max = 16, message = "Invalid transaction ID")
+    @NotBlank(message = "La référence de transaction (issuertrxref) est obligatoire")
+    @Size(max = 16, message = "La référence de transaction (issuertrxref) ne doit pas dépasser 16 caractères")
     private String issuertrxref;
 
     @ApiModelProperty(value = "Ping message identifier. Allows tracking multiple pings.",
@@ -26,6 +26,6 @@ public class PingCGBRequest {
 
     @ApiModelProperty(value = "Transaction date and time. ISO-8601 format.",
             example = "2025-11-04T10:15:30.123-03:00", required = true)
-    @NotBlank(message = "Invalid date")
+    @NotBlank(message = "La date (date) est obligatoire")
     private String date;
 }

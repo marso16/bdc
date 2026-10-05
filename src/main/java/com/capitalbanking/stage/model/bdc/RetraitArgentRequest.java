@@ -26,30 +26,30 @@ public class RetraitArgentRequest {
 
     private String accountnumber;
 
-    @NotBlank(message = "intent is required")
-    @Pattern(regexp = "direct_cash_out", message = "intent must be direct_cash_out")
+    @NotBlank(message = "L'opération (intent) est obligatoire")
+    @Pattern(regexp = "direct_cash_out", message = "L'opération (intent) doit être direct_cash_out")
     @ApiModelProperty(example = "direct_cash_out", required = true)
     private String intent;
 
-    @NotBlank(message = "amount is required")
-    @Pattern(regexp = "^\\d+(\\.\\d+)?$", message = "amount must be a valid positive number")
+    @NotBlank(message = "Le montant (amount) est obligatoire")
+    @Pattern(regexp = "^\\d+(\\.\\d+)?$", message = "Le montant (amount) doit être un nombre positif valide")
     @ApiModelProperty(example = "1250.0", required = true)
     private String amount;
 
-    @NotBlank(message = "currency is required")
-    @Pattern(regexp = "^[0-9]{3}$", message = "currency must be a 3-digit numeric ISO 4217 code")
+    @NotBlank(message = "La devise (currency) est obligatoire")
+    @Pattern(regexp = "^[0-9]{3}$", message = "La devise (currency) doit être un code ISO 4217 numérique à 3 chiffres")
     @ApiModelProperty(example = "174", required = true)
     private String currency;
 
-    @NotBlank(message = "createtime is required")
+    @NotBlank(message = "La date de création (createtime) est obligatoire")
     @ApiModelProperty(example = "1746416166000", required = true)
     private String createtime;
 
-    @NotBlank(message = "issuertrxref is required")
+    @NotBlank(message = "La référence de transaction (issuertrxref) est obligatoire")
     @ApiModelProperty(example = "948488604872", required = true)
     private String issuertrxref;
 
-    @NotBlank(message = "vouchercode is required")
+    @NotBlank(message = "Le code voucher (vouchercode) est obligatoire")
     @ApiModelProperty(example = "123456", required = true)
     private String vouchercode;
 

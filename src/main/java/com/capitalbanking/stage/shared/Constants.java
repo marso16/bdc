@@ -47,7 +47,7 @@ public class Constants {
     public static final String ERR_MSG_300 = "Les comptes de débit et de crédit doivent être différents";
     public static final String ERR_MSG_301 = "Le compte n'est pas valide. Il n'existe pas";
     public static final String ERR_MSG_304 = "Le numéro de compte fourni est vide ou invalide";
-    public static final String ERR_MSG_399 = "Données erronées.";
+    public static final String ERR_MSG_399 = "Les données fournies sont erronées ou incomplètes.";
     public static final String ERR_MSG_500 = "Erreur interne du système";
     public static final String ERR_MSG_1000 = "Transaction Id non valide";
 

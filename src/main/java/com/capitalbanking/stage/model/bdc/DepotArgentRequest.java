@@ -27,34 +27,34 @@ public class DepotArgentRequest {
     @ApiModelProperty(value = "Numéro de compte du client (créditeur).", example = "acc000000002", required = true)
     private String accountnumber;
 
-    @NotBlank(message = "intent is required")
-    @Pattern(regexp = "direct_cash_in", message = "intent must be direct_cash_in")
+    @NotBlank(message = "L'opération (intent) est obligatoire")
+    @Pattern(regexp = "direct_cash_in", message = "L'opération (intent) doit être direct_cash_in")
     @ApiModelProperty(value = "Opération demandée. Valeur fixe: direct_cash_in",
             example = "direct_cash_in", required = true)
     private String intent;
 
-    @NotBlank(message = "amount is required")
-    @Pattern(regexp = "^\\d+(\\.\\d+)?$", message = "amount must be a valid positive number")
+    @NotBlank(message = "Le montant (amount) est obligatoire")
+    @Pattern(regexp = "^\\d+(\\.\\d+)?$", message = "Le montant (amount) doit être un nombre positif valide")
     @ApiModelProperty(value = "Montant de la transaction.",
             example = "3500.0", required = true)
     private String amount;
 
-    @NotBlank(message = "currency is required")
-    @Pattern(regexp = "^[0-9]{3}$", message = "currency must be a 3-digit numeric ISO 4217 code")
+    @NotBlank(message = "La devise (currency) est obligatoire")
+    @Pattern(regexp = "^[0-9]{3}$", message = "La devise (currency) doit être un code ISO 4217 numérique à 3 chiffres")
     @ApiModelProperty(value = "Code devise ISO numérique.", example = "174", required = true)
     private String currency;
 
-    @NotBlank(message = "createtime is required")
+    @NotBlank(message = "La date de création (createtime) est obligatoire")
     @ApiModelProperty(value = "Horodatage de création de la transaction (epoch ms).",
             example = "1746416166000", required = true)
     private String createtime;
 
-    @NotBlank(message = "issuertrxref is required")
+    @NotBlank(message = "La référence de transaction (issuertrxref) est obligatoire")
     @ApiModelProperty(value = "Référence unique de transaction émise par le Switch.",
             example = "948488604871", required = true)
     private String issuertrxref;
 
-    @NotBlank(message = "vouchercode is required")
+    @NotBlank(message = "Le code voucher (vouchercode) est obligatoire")
     @ApiModelProperty(value = "Code voucher / OTP de la transaction.", example = "1234", required = true)
     private String vouchercode;
 
