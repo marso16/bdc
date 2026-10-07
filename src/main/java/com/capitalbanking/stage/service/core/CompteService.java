@@ -16,7 +16,7 @@ public class CompteService {
     }
 
     public Compte findCompteByCompte(String compte) {
-        Optional<Compte> opt = compteRepository.findCompteByCompte(compte);
-        return opt.orElse(null);
+        Optional<Compte> cpt = compteRepository.findCompteByCompte(compte);
+        return cpt.orElse(null);
     }
 }

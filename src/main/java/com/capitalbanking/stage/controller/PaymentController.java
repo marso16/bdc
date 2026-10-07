@@ -4,7 +4,7 @@ import com.capitalbanking.stage.model.bdc.*;
 import com.capitalbanking.stage.security.OAuthTokenResponse;
 import com.capitalbanking.stage.service.auth.AuthTokenService;
 import com.capitalbanking.stage.service.core.PingService;
-import com.capitalbanking.stage.service.payment.AccountCreationService;
+import com.capitalbanking.stage.service.payment.CompteCreationService;
 import com.capitalbanking.stage.service.payment.CancellationService;
 import com.capitalbanking.stage.service.payment.InquiryService;
 import com.capitalbanking.stage.service.payment.TransferService;
@@ -31,20 +31,20 @@ public class PaymentController {
     private final TransferService transferService;
     private final CancellationService cancellationService;
     private final InquiryService inquiryService;
-    private final AccountCreationService accountCreationService;
+    private final CompteCreationService compteCreationService;
     private final PingService pingService;
 
     public PaymentController(AuthTokenService authTokenService,
                              TransferService transferService,
                              CancellationService cancellationService,
                              InquiryService inquiryService,
-                             AccountCreationService accountCreationService,
+                             CompteCreationService compteCreationService,
                              PingService pingService) {
         this.authTokenService = authTokenService;
         this.transferService = transferService;
         this.cancellationService = cancellationService;
         this.inquiryService = inquiryService;
-        this.accountCreationService = accountCreationService;
+        this.compteCreationService = compteCreationService;
         this.pingService = pingService;
     }
 
@@ -144,7 +144,7 @@ public class PaymentController {
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<CompteCreationResponse> compteCreation(@Valid @RequestBody CompteCreationRequest request) {
         return withMdc("requestID", request.getRequestID(),
-                () -> accountCreationService.createAccount(request));
+                () -> compteCreationService.createAccount(request));
     }
 
     //    PingCGB - Verification de disponibilite du service ===========================================================

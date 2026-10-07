@@ -12,15 +12,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AccountCreationService {
+public class CompteCreationService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AccountCreationService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CompteCreationService.class);
 
     private final RiTransferService riTransferService;
     private final SwitchNotifier switchNotifier;
 
-    public AccountCreationService(RiTransferService riTransferService,
-                                  SwitchNotifier switchNotifier) {
+    public CompteCreationService(RiTransferService riTransferService,
+                                 SwitchNotifier switchNotifier) {
         this.riTransferService = riTransferService;
         this.switchNotifier = switchNotifier;
     }
